@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /entrar/
+
+Sitemap: https://posicionadas.com.br/sitemap.xml
