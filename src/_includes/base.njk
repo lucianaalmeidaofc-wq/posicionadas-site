@@ -120,6 +120,18 @@
 
 <button class="to-top" id="toTop" aria-label="Voltar ao topo">↑</button>
 
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", function (user) {});
+    if (location.hash && location.hash.includes("invite_token")) {
+      window.netlifyIdentity.open();
+    }
+    if (location.hash && location.hash.includes("recovery_token")) {
+      window.netlifyIdentity.open();
+    }
+  }
+</script>
 <script src="/js/main.js"></script>
 </body>
 </html>
