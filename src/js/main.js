@@ -73,9 +73,28 @@ if (toTopBtn) {
   });
 }
 
+// Google Analytics (only loads after cookie consent, per GDPR)
+var GA_ID = 'G-K3Q3PZ9740';
+function loadAnalytics() {
+  if (window.gtagLoaded) return;
+  window.gtagLoaded = true;
+  var script = document.createElement('script');
+  script.async = true;
+  script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+  document.head.appendChild(script);
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  window.gtag = gtag;
+  gtag('js', new Date());
+  gtag('config', GA_ID);
+}
+
 // cookie consent banner
 var cookieBanner = document.getElementById('cookieBanner');
 var cookieAccept = document.getElementById('cookieAccept');
+if (localStorage.getItem('cookieConsent') === 'accepted') {
+  loadAnalytics();
+}
 if (cookieBanner) {
   if (!localStorage.getItem('cookieConsent')) {
     setTimeout(function () { cookieBanner.classList.add('is-visible'); }, 600);
@@ -84,6 +103,7 @@ if (cookieBanner) {
     cookieAccept.addEventListener('click', function () {
       localStorage.setItem('cookieConsent', 'accepted');
       cookieBanner.classList.remove('is-visible');
+      loadAnalytics();
     });
   }
 }
