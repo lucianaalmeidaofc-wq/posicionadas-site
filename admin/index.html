@@ -28,8 +28,12 @@
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>
     (function () {
-      function handleAuthState() {
-        var user = window.netlifyIdentity && window.netlifyIdentity.currentUser();
+      if (!window.netlifyIdentity) return;
+
+      var settled = false;
+
+      function handleAuthState(user) {
+        settled = true;
         if (!user) {
           document.location.href = "/entrar/";
         } else {
@@ -39,16 +43,25 @@
           if (box) box.style.display = "block";
         }
       }
-      if (window.netlifyIdentity) {
-        // The widget auto-initializes on script load, so "init" may have
-        // already fired by the time we get here. Check the current state
-        // directly instead of relying on the event.
-        handleAuthState();
-        window.netlifyIdentity.on("login", handleAuthState);
-        window.netlifyIdentity.on("logout", function () {
-          document.location.href = "/entrar/";
-        });
-      }
+
+      window.netlifyIdentity.on("init", handleAuthState);
+      window.netlifyIdentity.on("login", handleAuthState);
+      window.netlifyIdentity.on("logout", function () {
+        document.location.href = "/entrar/";
+      });
+
+      // Re-call init ourselves: if the widget already auto-initialized
+      // before this listener was registered, this re-fires "init" with
+      // the resolved state. Safe to call more than once.
+      window.netlifyIdentity.init();
+
+      // Safety net: if nothing settled quickly (slow session restore),
+      // fall back to checking currentUser() directly.
+      setTimeout(function () {
+        if (!settled) {
+          handleAuthState(window.netlifyIdentity.currentUser());
+        }
+      }, 1200);
     })();
   </script>
 
