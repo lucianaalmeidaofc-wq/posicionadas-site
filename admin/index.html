@@ -8,6 +8,9 @@
 <body>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <button id="account-btn" style="display:none;position:fixed;bottom:16px;right:16px;z-index:9999;padding:10px 16px;background:#2a2129;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;">
+    Minha conta / Trocar senha
+  </button>
   <script>
     if (window.netlifyIdentity) {
       window.netlifyIdentity.on("init", (user) => {
@@ -15,7 +18,12 @@
           window.netlifyIdentity.on("login", () => {
             document.location.href = "/admin/";
           });
+        } else {
+          document.getElementById("account-btn").style.display = "block";
         }
+      });
+      document.getElementById("account-btn").addEventListener("click", () => {
+        window.netlifyIdentity.open("user");
       });
     }
   </script>
