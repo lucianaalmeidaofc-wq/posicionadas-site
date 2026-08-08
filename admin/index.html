@@ -7,10 +7,51 @@
   <link rel="icon" href="/assets/posicionadas-logo.png">
   <style>
     body { background: linear-gradient(160deg, #FFFBFA 0%, #F7ECEC 100%) !important; }
+    #boot-overlay{
+      position: fixed; inset: 0; z-index: 99999;
+      background: linear-gradient(160deg, #3E0F27 0%, #6E1A45 55%, #8F2D5C 100%);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 16px;
+      font-family: sans-serif;
+    }
+    #boot-overlay img{ width: 64px; height: 64px; animation: pulse 1.4s ease-in-out infinite; }
+    #boot-overlay span{ color: rgba(255,255,255,0.85); font-size: 0.9rem; }
+    @keyframes pulse{ 0%,100%{ opacity: 0.6; transform: scale(1); } 50%{ opacity: 1; transform: scale(1.08); } }
   </style>
 </head>
 <body>
+  <div id="boot-overlay">
+    <img src="/assets/posicionadas-logo.png" alt="Posicionadas">
+    <span>Carregando...</span>
+  </div>
+
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    (function () {
+      function handleAuthState() {
+        var user = window.netlifyIdentity && window.netlifyIdentity.currentUser();
+        if (!user) {
+          document.location.href = "/entrar/";
+        } else {
+          var overlay = document.getElementById("boot-overlay");
+          if (overlay) overlay.remove();
+          var box = document.getElementById("account-box");
+          if (box) box.style.display = "block";
+        }
+      }
+      if (window.netlifyIdentity) {
+        // The widget auto-initializes on script load, so "init" may have
+        // already fired by the time we get here. Check the current state
+        // directly instead of relying on the event.
+        handleAuthState();
+        window.netlifyIdentity.on("login", handleAuthState);
+        window.netlifyIdentity.on("logout", function () {
+          document.location.href = "/entrar/";
+        });
+      }
+    })();
+  </script>
+
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 
   <div id="account-box" style="display:none;position:fixed;bottom:16px;right:16px;z-index:9999;background:#fff;border:1px solid #ddd;border-radius:10px;padding:16px;box-shadow:0 4px 20px rgba(0,0,0,0.15);width:260px;font-family:sans-serif;">
@@ -25,16 +66,6 @@
 
   <script>
     if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", (user) => {
-        if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            document.location.href = "/admin/";
-          });
-        } else {
-          document.getElementById("account-box").style.display = "block";
-        }
-      });
-
       document.getElementById("account-toggle").addEventListener("click", () => {
         var form = document.getElementById("account-form");
         form.style.display = form.style.display === "none" ? "block" : "none";
