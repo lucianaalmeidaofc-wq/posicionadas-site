@@ -6,6 +6,19 @@
 <meta name="google-site-verification" content="He2Su52yUObyW0Mo5awDbx5QJjw_ZtDA-34c0tnltG8" />
 <title>{{ title or "Posicionadas | Luciana Almeida" }}</title>
 <meta name="description" content="{{ description or excerpt or 'Posicionadas, um discipulado para mulheres compreenderem seu chamado e propósito em Deus, com Luciana Almeida.' }}">
+<link rel="icon" href="/assets/posicionadas-logo.png">
+
+<meta property="og:type" content="{{ 'article' if cover else 'website' }}">
+<meta property="og:title" content="{{ title or 'Posicionadas | Luciana Almeida' }}">
+<meta property="og:description" content="{{ description or excerpt or 'Posicionadas, um discipulado para mulheres compreenderem seu chamado e propósito em Deus, com Luciana Almeida.' }}">
+<meta property="og:url" content="https://posicionadas.com.br{{ page.url }}">
+<meta property="og:image" content="https://posicionadas.com.br{{ cover or '/assets/luciana-almeida.jpg' }}">
+<meta property="og:site_name" content="Posicionadas">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ title or 'Posicionadas | Luciana Almeida' }}">
+<meta name="twitter:description" content="{{ description or excerpt or 'Posicionadas, um discipulado para mulheres compreenderem seu chamado e propósito em Deus, com Luciana Almeida.' }}">
+<meta name="twitter:image" content="https://posicionadas.com.br{{ cover or '/assets/luciana-almeida.jpg' }}">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
