@@ -32,15 +32,28 @@
 
       var settled = false;
 
+      function removeOverlayWhenReady() {
+        var box = document.getElementById("account-box");
+        if (box) box.style.display = "block";
+
+        var tries = 0;
+        var check = setInterval(function () {
+          tries++;
+          var ready = document.body.innerText.indexOf("Artigos do Blog") !== -1;
+          if (ready || tries > 40) {
+            clearInterval(check);
+            var overlay = document.getElementById("boot-overlay");
+            if (overlay) overlay.remove();
+          }
+        }, 150);
+      }
+
       function handleAuthState(user) {
         settled = true;
         if (!user) {
           document.location.href = "/entrar/";
         } else {
-          var overlay = document.getElementById("boot-overlay");
-          if (overlay) overlay.remove();
-          var box = document.getElementById("account-box");
-          if (box) box.style.display = "block";
+          removeOverlayWhenReady();
         }
       }
 
