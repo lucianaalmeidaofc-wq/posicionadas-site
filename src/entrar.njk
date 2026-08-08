@@ -1,0 +1,87 @@
+---
+permalink: /entrar/index.html
+---
+<!doctype html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrar | Posicionadas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="/assets/posicionadas-logo.png">
+<style>
+  *{ box-sizing: border-box; }
+  body{
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    font-family: "Inter", sans-serif;
+    background: linear-gradient(160deg, #3E0F27 0%, #6E1A45 55%, #8F2D5C 100%);
+  }
+  .login-card{
+    width: 100%;
+    max-width: 380px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 24px 60px rgba(62,15,39,0.28);
+    padding: 40px 32px;
+    text-align: center;
+  }
+  .login-card img{ width: 76px; height: 76px; margin: 0 auto 20px; display: block; }
+  .login-card h1{ font-family: "Playfair Display", serif; font-weight: 700; font-size: 1.4rem; margin: 0 0 0.3em; color: #3E0F27; }
+  .login-card p{ font-size: 0.92rem; color: #6B5C63; margin: 0 0 1.8em; line-height: 1.6; }
+  .btn-entrar{
+    width: 100%;
+    padding: 14px 28px;
+    border-radius: 100px;
+    border: none;
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #3E0F27;
+    cursor: pointer;
+    background: linear-gradient(135deg, #E1526B 0%, #F0A0AD 100%);
+    box-shadow: 0 10px 24px rgba(225,82,107,0.35);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .btn-entrar:hover{ transform: translateY(-3px); box-shadow: 0 16px 32px rgba(225,82,107,0.45); }
+  .login-status{ font-size: 0.85rem; color: #6B5C63; margin-top: 1em; min-height: 1.2em; }
+</style>
+</head>
+<body>
+  <div class="login-card">
+    <img src="/assets/posicionadas-logo.png" alt="Posicionadas">
+    <h1>Área Restrita</h1>
+    <p>Acesso exclusivo para publicar no blog do Posicionadas.</p>
+    <button class="btn-entrar" id="btn-entrar">Entrar</button>
+    <p class="login-status" id="status"></p>
+  </div>
+
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    var statusEl = document.getElementById('status');
+    if (window.netlifyIdentity) {
+      netlifyIdentity.on('init', function (user) {
+        if (user) window.location.href = '/admin/';
+      });
+      netlifyIdentity.on('login', function () {
+        window.location.href = '/admin/';
+      });
+      netlifyIdentity.on('error', function (err) {
+        statusEl.textContent = 'Não foi possível entrar. Tente novamente.';
+        console.error(err);
+      });
+    } else {
+      statusEl.textContent = 'Serviço de login indisponível no momento.';
+    }
+    document.getElementById('btn-entrar').addEventListener('click', function () {
+      netlifyIdentity.open('login');
+    });
+  </script>
+</body>
+</html>
