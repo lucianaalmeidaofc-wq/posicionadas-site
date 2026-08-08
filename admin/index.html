@@ -8,9 +8,17 @@
 <body>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-  <button id="account-btn" style="display:none;position:fixed;bottom:16px;right:16px;z-index:9999;padding:10px 16px;background:#2a2129;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;">
-    Minha conta / Trocar senha
-  </button>
+
+  <div id="account-box" style="display:none;position:fixed;bottom:16px;right:16px;z-index:9999;background:#fff;border:1px solid #ddd;border-radius:10px;padding:16px;box-shadow:0 4px 20px rgba(0,0,0,0.15);width:260px;font-family:sans-serif;">
+    <div id="account-toggle" style="cursor:pointer;font-weight:bold;color:#2a2129;">Trocar senha ▾</div>
+    <div id="account-form" style="display:none;margin-top:10px;">
+      <input id="pw1" type="password" placeholder="Nova senha" style="width:100%;padding:8px;margin-bottom:8px;box-sizing:border-box;">
+      <input id="pw2" type="password" placeholder="Confirmar nova senha" style="width:100%;padding:8px;margin-bottom:8px;box-sizing:border-box;">
+      <button id="pw-save" style="width:100%;padding:8px;background:#2a2129;color:#fff;border:none;border-radius:6px;cursor:pointer;">Salvar nova senha</button>
+      <div id="pw-msg" style="margin-top:8px;font-size:13px;"></div>
+    </div>
+  </div>
+
   <script>
     if (window.netlifyIdentity) {
       window.netlifyIdentity.on("init", (user) => {
@@ -19,11 +27,39 @@
             document.location.href = "/admin/";
           });
         } else {
-          document.getElementById("account-btn").style.display = "block";
+          document.getElementById("account-box").style.display = "block";
         }
       });
-      document.getElementById("account-btn").addEventListener("click", () => {
-        window.netlifyIdentity.open("user");
+
+      document.getElementById("account-toggle").addEventListener("click", () => {
+        var form = document.getElementById("account-form");
+        form.style.display = form.style.display === "none" ? "block" : "none";
+      });
+
+      document.getElementById("pw-save").addEventListener("click", () => {
+        var pw1 = document.getElementById("pw1").value;
+        var pw2 = document.getElementById("pw2").value;
+        var msg = document.getElementById("pw-msg");
+        if (pw1.length < 8) {
+          msg.style.color = "red";
+          msg.textContent = "A senha precisa ter pelo menos 8 caracteres.";
+          return;
+        }
+        if (pw1 !== pw2) {
+          msg.style.color = "red";
+          msg.textContent = "As senhas não são iguais.";
+          return;
+        }
+        var user = window.netlifyIdentity.currentUser();
+        user.update({ password: pw1 }).then(() => {
+          msg.style.color = "green";
+          msg.textContent = "Senha alterada com sucesso!";
+          document.getElementById("pw1").value = "";
+          document.getElementById("pw2").value = "";
+        }).catch((err) => {
+          msg.style.color = "red";
+          msg.textContent = "Erro: " + err.message;
+        });
       });
     }
   </script>
