@@ -1,0 +1,17 @@
+---
+layout: base.njk
+---
+<article>
+  <header class="post-header">
+    <div class="container narrow">
+      <p class="eyebrow">Posicionadas</p>
+      <h1>{{ title }}</h1>
+      <p class="post-meta">{{ date | postDate }}</p>
+    </div>
+  </header>
+  <div class="post-body">
+    <div class="container">
+      {{ content | safe }}
+    </div>
+  </div>
+</article>

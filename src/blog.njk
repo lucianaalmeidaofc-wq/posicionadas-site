@@ -1,0 +1,31 @@
+---
+layout: base.njk
+title: Blog | Posicionadas
+description: Mensagens para mulheres compreenderem seu chamado e propósito em Deus.
+permalink: /blog/index.html
+---
+<section class="post-header" style="padding-top: 160px;">
+  <div class="container">
+    <p class="eyebrow lang-pt">Posicionadas</p>
+    <p class="eyebrow lang-en">Posicionadas</p>
+    <h1 class="lang-pt">Blog</h1>
+    <h1 class="lang-en">Blog</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="card-grid">
+      {% for post in collections.posts | reverse %}
+      <a class="card reveal" href="{{ post.url }}">
+        <div class="card-media" aria-hidden="true">
+        <video src="/assets/posicionadas-animacao.mp4" autoplay muted loop playsinline></video>
+      </div>
+        <time datetime="{{ post.date }}">{{ post.date | postDate }}</time>
+        <h3>{{ post.data.title }}</h3>
+        <p>{{ post.data.excerpt }}</p>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
