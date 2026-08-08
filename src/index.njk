@@ -185,7 +185,11 @@ description: Um discipulado para mulheres compreenderem seu chamado e propósito
         {% if loop.index <= 3 %}
         <a class="card reveal" href="{{ post.url }}">
           <div class="card-media" aria-hidden="true">
+            {% if post.data.cover %}
+            <img src="{{ post.data.cover }}" alt="">
+            {% else %}
             <video src="/assets/posicionadas-animacao.mp4" autoplay muted loop playsinline></video>
+            {% endif %}
           </div>
           <time datetime="{{ post.date }}">{{ post.date | postDate }}</time>
           <h3>{{ post.data.title }}</h3>

@@ -9,6 +9,11 @@ layout: base.njk
       <p class="post-meta">{{ date | postDate }}</p>
     </div>
   </header>
+  {% if cover %}
+  <div class="post-cover">
+    <img src="{{ cover }}" alt="{{ title }}">
+  </div>
+  {% endif %}
   <div class="post-body">
     <div class="container">
       {{ content | safe }}

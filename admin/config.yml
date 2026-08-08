@@ -20,4 +20,5 @@ collections:
       - { label: "Título", name: "title", widget: "string" }
       - { label: "Data", name: "date", widget: "datetime" }
       - { label: "Resumo (aparece na lista do blog)", name: "excerpt", widget: "text" }
-      - { label: "Texto do artigo", name: "body", widget: "markdown" }
+      - { label: "Foto de capa", name: "cover", widget: "image", required: false, hint: "Aparece no topo do artigo e nos cartões do blog." }
+      - { label: "Texto do artigo", name: "body", widget: "markdown", media_folder: "/src/assets/uploads", public_folder: "/assets/uploads" }
